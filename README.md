@@ -13,3 +13,10 @@ Instructions to the candidate:
  -    2. You can even use pen/paper to draw your design and take a pic of that and share it as part of your craft demo
  -    3. Do take the time to clearly define the data models and the API interfaces.
 
+## How to run
+To install and add maven to environment variable visit [Install maven](https://www.mkyong.com/maven/how-to-install-maven-in-windows/) if you are under a proxy check out [add proxy to maven](https://stackoverflow.com/a/47175285/8149916)
+
+Install mysql on your system and create database named driver, set the user and password in [application.properties](src/main/resources/application.properties) file
+
+Navigate to the root of the project via command line and execute the command
+`mvn spring-boot:run`
