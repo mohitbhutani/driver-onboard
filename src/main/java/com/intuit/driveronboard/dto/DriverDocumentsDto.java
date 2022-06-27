@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.Serializable;
 
+/**
+ * Request object to upload files
+ */
 public class DriverDocumentsDto implements Serializable {
     @Valid
     private MultipartFile driverLicenseFront;

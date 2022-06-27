@@ -5,6 +5,9 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Collection;
 
+/**
+ * Class extending Spring security User class to add more info about driver
+ */
 public class CurrentUser extends User {
 
     public CurrentUser(String username, String password, boolean enabled, boolean accountNonExpired,

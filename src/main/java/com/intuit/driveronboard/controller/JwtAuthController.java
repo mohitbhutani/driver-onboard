@@ -33,6 +33,12 @@ public class JwtAuthController {
     @Autowired
     private JwtUserDetailsService userDetailsService;
 
+    /**
+     * API to get back JWT token using username and password
+     * @param authenticationRequest request with username and password
+     * @return Response entity with token
+     * @throws Exception if anything fails
+     */
     @RequestMapping(value = "/api/auth", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
 

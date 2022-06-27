@@ -34,8 +34,14 @@ public class DriverController {
     private DriverService driverService;
     private Logger logger = LoggerFactory.getLogger(DriverController.class);
 
+    /**
+     * Function to register driver using email and password, if email already exists throw an exception
+     * @param driverDto driver information
+     * @param bindingResult anything that fails during binding dto
+     * @return Response entity with success of failure response
+     */
     @PostMapping("/api/register")
-    public ResponseEntity<ResponseObject<?>> driverRegistration(final @Valid @RequestBody DriverDto userData, final BindingResult bindingResult) {
+    public ResponseEntity<ResponseObject<?>> driverRegistration(final @Valid @RequestBody DriverDto driverDto, final BindingResult bindingResult) {
 
         if (bindingResult.hasErrors()) {
             StringBuffer sb = new StringBuffer("");
@@ -46,7 +52,7 @@ public class DriverController {
 
         }
         try {
-            driverService.register(userData);
+            driverService.register(driverDto);
         } catch (UserAlreadyExistException e) {
             return new ResponseEntity<>(ResponseUtil.createErrorResponse("An account already exists for this email.", null), HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
@@ -56,6 +62,13 @@ public class DriverController {
         return new ResponseEntity<>(ResponseUtil.createSuccessResponse(null), HttpStatus.OK);
     }
 
+    /**
+     * API to upload driver related documents
+     * @param documents all documents presented by driver
+     * @param authentication authentication object to get driver id logged in
+     * @param bindingResult binding results if anything fails
+     * @return Response Entity with download urls of all files
+     */
     @PostMapping("/api/uploadDocuments")
     public ResponseEntity<ResponseObject<?>> uploadDocuments(@ModelAttribute @Valid DriverDocumentsDto documents, Authentication authentication, final BindingResult bindingResult) {
         DriverDocumentResponseDto responseDto = null;
@@ -77,6 +90,12 @@ public class DriverController {
         return new ResponseEntity<>(ResponseUtil.createSuccessResponse(responseDto), HttpStatus.OK);
     }
 
+    /**
+     * API to download the file uploaded by driver
+     * @param fileName name of the file to be downloaded
+     * @param request http request
+     * @return Response Entity with the File Resource
+     */
     @GetMapping("/api/downloadFile/{fileName:.+}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
         // Load file as Resource
@@ -101,6 +120,12 @@ public class DriverController {
                 .body(resource);
     }
 
+    /**
+     * API to be used by Driver to mark that they are ready to take rides
+     * @param readyForRideDto boolean value to mark as ready
+     * @param authentication auth object
+     * @return response entity with success or failure message
+     */
     @PutMapping("/api/readyForRide")
     public ResponseEntity<ResponseObject<?>> readyForRide(@RequestBody ReadyForRideDto readyForRideDto, Authentication authentication) {
         Boolean value = false;

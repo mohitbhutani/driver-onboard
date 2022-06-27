@@ -2,6 +2,9 @@ package com.intuit.driveronboard.dto;
 
 import java.io.Serializable;
 
+/**
+ * jwt request to login using username and password
+ */
 public class JwtRequest implements Serializable {
 
     private static final long serialVersionUID = 5926468583005150707L;

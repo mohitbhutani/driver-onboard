@@ -4,6 +4,9 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 
+/**
+ * DTO object to get driver information
+ */
 public class DriverDto implements Serializable {
     @NotEmpty(message = "First name can not be empty")
     private String firstName;

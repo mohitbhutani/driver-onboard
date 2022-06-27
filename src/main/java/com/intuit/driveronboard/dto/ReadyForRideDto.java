@@ -2,6 +2,9 @@ package com.intuit.driveronboard.dto;
 
 import java.io.Serializable;
 
+/**
+ * DTO object for driver to mark ready for rides
+ */
 public class ReadyForRideDto implements Serializable {
     private Boolean readyForRide;
 

@@ -2,6 +2,9 @@ package com.intuit.driveronboard.dto;
 
 import java.io.Serializable;
 
+/**
+ * JWT token response
+ */
 public class JwtResponse implements Serializable {
 
     private static final long serialVersionUID = -8091879091924046844L;

@@ -2,6 +2,9 @@ package com.intuit.driveronboard.dto;
 
 import java.io.Serializable;
 
+/**
+ * Response Object for uploading documents
+ */
 public class DriverDocumentResponseDto implements Serializable {
     private String driverLicenseFrontUri;
     private String driverLicenseBackUri;

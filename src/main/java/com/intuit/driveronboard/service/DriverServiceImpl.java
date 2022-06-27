@@ -47,6 +47,12 @@ public class DriverServiceImpl implements DriverService{
 
 
     private Logger logger = LoggerFactory.getLogger(DriverRepository.class);
+
+    /**
+     * Function to register a driver in DB
+     * @param driverDto dto object representing a driver
+     * @throws UserAlreadyExistException if anything fails
+     */
     @Override
     public void register(DriverDto driverDto) throws UserAlreadyExistException {
 
@@ -61,15 +67,31 @@ public class DriverServiceImpl implements DriverService{
         logger.info("Driver data saved to DB");
     }
 
-
+    /**
+     * Check if driver exists with this email id
+     * @param email string email id
+     * @return true if exists, otherwise false
+     */
     @Override
     public boolean checkIfUserExist(String email) {
         return driverRepository.findByEmail(email) !=null;
     }
 
-    private void encodePassword( Driver driver, DriverDto user){
-        driver.setPassword(passwordEncoder.encode(user.getPassword()));
+    /**
+     * Encode password from plain text
+     * @param driver driver object to et encrypted password
+     * @param driverDto dto object to get plain passsword
+     */
+    private void encodePassword( Driver driver, DriverDto driverDto){
+        driver.setPassword(passwordEncoder.encode(driverDto.getPassword()));
     }
+
+    /**
+     * Function to upload all documents of a driver
+     * @param documents all documents with multipart files
+     * @param id driver long id
+     * @return response object dto
+     */
     @Override
     public DriverDocumentResponseDto uploadDriverDocuments(DriverDocumentsDto documents, Long id){
         DriverDocuments driverDocuments = new DriverDocuments();
@@ -90,6 +112,12 @@ public class DriverServiceImpl implements DriverService{
         return responseDto;
     }
 
+    /**
+     * Function to upload one file at a specific location
+     * @param file file to upload
+     * @param id driver id for name
+     * @return downloadable url
+     */
     public String uploadOneFile(MultipartFile file, Long id) {
         String fileName = localFileStorageService.storeFile(file, String.valueOf(id));
 
@@ -99,11 +127,22 @@ public class DriverServiceImpl implements DriverService{
                 .toUriString();
     }
 
+    /**
+     * Download file function
+     * @param fileName
+     * @return
+     */
     @Override
     public Resource downloadFileAsResource(String fileName){
        return localFileStorageService.loadFileAsResource(fileName);
     }
 
+    /**
+     * Function to mark driver ready for ride, will only be done if driver is marked valid and is not already enabled to drive
+     * @param driverId driver long id
+     * @param readyForRide boolean value if driver is ready to ride
+     * @return boolean value if enabled to take ride
+     */
     @Override
     public Boolean driverReadyForRide(Long driverId, Boolean readyForRide) {
         Optional<Driver> driver = driverRepository.findById(driverId);
